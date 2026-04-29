@@ -5,7 +5,7 @@
 void FailureFunction(std::string x);
 
 int main(){
-    FailureFunction("ababaa");
+    FailureFunction("ababaaa");
     return 0;
 }
 
