@@ -64,6 +64,13 @@ Full implementation of the KMP algorithm that searches for a pattern within a te
 
 The KMP algorithm uses the Failure Function to achieve O(n + m) time complexity (where n is the pattern length and m is the text length), making it significantly faster than naive pattern matching.
 
+### Environment
+- **Component**	Version / Tool
+- **Operating System:** 	Windows 10
+- **IDE**	CLion
+- **Programming Language**	C++17
+- **AI Assistance Tool**	ChatGPT
+
 ### How to Compile and Run
 
 #### Prerequisites
