@@ -1,61 +1,129 @@
-# Proyecto KMP - Algoritmo de Búsqueda de Patrones
+# KMP Algorithm - Pattern Search Project
 
-Este proyecto implementa el **Algoritmo de Knuth-Morris-Pratt (KMP)**, un eficiente algoritmo de búsqueda de patrones en cadenas de texto.
+This project implements the **Knuth-Morris-Pratt (KMP) Algorithm**, an efficient pattern matching algorithm for text strings.
 
-## Descripción
+## Environment and Tools
 
-El algoritmo KMP es un método de búsqueda de patrones que evita comparaciones innecesarias utilizando información sobre las coincidencias parciales del patrón. Este proyecto incluye dos tareas:
+- **Operating System:** macOS
+- **Programming Language:** C++ (C++11 or later)
+- **Compiler:** g++ (Apple LLVM)
+- **Build Method:** Command line compilation
 
-### FirstTask.cpp - Función de Fallos (Failure Function)
+---
 
-Calcula el **arreglo de fallos** para un patrón dado. Este arreglo es fundamental en el algoritmo KMP y contiene información sobre los prefijos que coinciden con sufijos en cada posición del patrón.
+## FirstTask - Failure Function
 
-**Función principal:**
-- `FailureFunction(std::string keyword)` - Calcula e imprime el arreglo de fallos para la palabra clave ingresada
+### Description
 
-**Ejemplo de uso:**
-```cpp
-FailureFunction("ababaa");  // Imprime: 0 0 1 2 3 0
-```
+Computes the **Failure Function** (also called the **LPS array** - Longest Proper Prefix which is also Suffix), a crucial component of the KMP algorithm. This is the preprocessing step that enables efficient pattern matching.
 
-### SecondTask.cpp - Algoritmo KMP Completo
+### Algorithm Explanation
 
-Implementación completa del algoritmo KMP que busca un patrón dentro de una cadena de texto.
+The **Failure Function** stores the length of the longest proper prefix that is also a suffix at each position in the pattern.
 
-**Funciones principales:**
-- `FailureFunction(std::string keyword)` - Calcula el arreglo de fallos
-- `KMP(std::string chain, std::string keyword)` - Busca el patrón en la cadena y retorna "yes" o "no"
+**Example for pattern "ababaa":**
+- Position 0: 0 (no proper prefix/suffix)
+- Position 1: 0 (prefix "a" ≠ suffix "b")
+- Position 2: 1 (prefix "a" = suffix "a")
+- Position 3: 2 (prefix "ab" = suffix "ab")
+- Position 4: 3 (prefix "aba" = suffix "aba")
+- Position 5: 0 (prefix "abab" ≠ suffix "baa")
 
-**Ejemplo de uso:**
-```cpp
-KMP("abababaab", "ababaa")    // Retorna "yes"
-KMP("abababbaa", "ababaa")    // Retorna "no"
-```
+**Output:** `0 0 1 2 3 0`
 
-## Compilación y Ejecución
+### How to Compile and Run
 
-### FirstTask
+#### Prerequisites
+Ensure you have g++ installed on your system.
+
+#### Compilation
 ```bash
 cd /Users/jerovelez/Trabajo-LF
 g++ -o FirstTask FirstTask.cpp
+```
+
+#### Execution
+```bash
 ./FirstTask
 ```
 
-### SecondTask
+#### Expected Output
+```
+0 0 1 2 3 0
+```
+
+---
+
+## SecondTask - Complete KMP Algorithm
+
+### Description
+
+Full implementation of the KMP algorithm that searches for a pattern within a text string and determines if the keyword exists in the given chain.
+
+### Algorithm Explanation
+
+The KMP algorithm uses the Failure Function to achieve O(n + m) time complexity (where n is the pattern length and m is the text length), making it significantly faster than naive pattern matching.
+
+### How to Compile and Run
+
+#### Prerequisites
+Ensure you have g++ installed on your system.
+
+#### Compilation
 ```bash
 cd /Users/jerovelez/Trabajo-LF
 g++ -o SecondTask SecondTask.cpp
+```
+
+#### Execution
+```bash
 ./SecondTask
 ```
 
-## Complejidad
+#### Expected Output
+```
+Execution with 'abababaab' as string and 'ababaa' as keyword
+yes
+Execution with 'abababbaa' as string and 'ababaa' as keyword
+no
+```
+This implementation follows the description from:
 
-- **Tiempo:** O(n + m), donde n es la longitud del patrón y m es la longitud de la cadena
-- **Espacio:** O(n) para almacenar el arreglo de fallos
+Compilers: Principles, Techniques, and Tools (Aho et al., 2nd edition), Section 3.4.5.
 
-## Ventajas del Algoritmo KMP
+The solution is divided into two main components:
 
-- No requiere búsquedas exhaustivas
-- Muy eficiente para textos grandes
-- Ideal para búsquedas en flujos de datos
-- Mejor desempeño que búsqueda lineal ingenua en muchos casos
+1️⃣ Failure Function — FailureFunction(keyword)
+Computes an array f[]
+Each position f[s] stores:
+The length of the longest proper prefix of b1...bs that is also a suffix
+
+📌 Purpose:
+
+Avoid redundant comparisons
+Reuse previously matched information when mismatches occur
+2️⃣ KMP Search — KMP(chain, keyword)
+Iterates over the text string
+Maintains a counter s for matched characters
+On mismatch:
+s = f[s];
+On full match (s == n):
+return "yes"
+If no match is found:
+return "no"
+🚀 Key Advantages
+Linear time complexity: O(m + n)
+No backtracking in the text
+Efficient for large-scale text processing
+Useful in lexical analysis and compiler design
+🤖 AI Assistance
+This README and project documentation were adapted with the assistance of ChatGPT.
+
+📚 References
+📖 Books
+Aho, A. V., Lam, M. S., Sethi, R., & Ullman, J. D.
+Compilers: Principles, Techniques, and Tools (2nd ed.).
+Pearson, 2007. Section 3.4.5, Figures 3.19–3.20.
+🎥 Videos
+https://www.youtube.com/watch?v=ynv7bbcSLKE
+https://www.youtube.com/watch?v=V5-7GzOfADQ
